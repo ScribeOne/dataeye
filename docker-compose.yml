@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+    # PostGres Database
     db:
         image: postgres:11
         volumes: 
@@ -9,9 +10,11 @@ services:
             - POSTGRES_USER=Testuser
             - POSTGRES_PASSWORD=testpassword
             - POSTGRES_DB=mydockerdb
-        ports:
-            - "5432:5432"
+        # no need to expose ports in same docker network
+        #ports:
+            #- "5432:5432"
 
+    # Django Backend 
     backend:
         build: .
         command: python manage.py runserver 0.0.0.0:8000
@@ -21,6 +24,18 @@ services:
             - "8000:8000"
         depends_on:
             - db
+    
+    # Vue.js Frontend  
+    frontend:
+        build:
+            # context is / in master branch
+            context: https://github.com/ScribeOne/jineye.git#master:/
+            # dev dockerfile loads all files without local mount
+            #  => no hot reloading with docker-compose
+            dockerfile: Dockerfile.dev
+        ports:
+            - '8080:8080'
+
 volumes:
     postgres-data:
         driver: local
