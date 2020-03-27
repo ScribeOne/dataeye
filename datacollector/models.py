@@ -10,3 +10,4 @@ class Measurement(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     value01 = models.IntegerField()
     value02 = models.IntegerField()
+    timestamp = models.CharField(max_length=55, default="no timestamp")
