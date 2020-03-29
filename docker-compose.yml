@@ -4,17 +4,17 @@ services:
     # PostGres Database
     db:
         image: postgres:11
-        volumes: 
+        volumes:
             - postgres-data:/var/lib/postgresql/data
-        environment:   
+        environment:
             - POSTGRES_USER=Testuser
             - POSTGRES_PASSWORD=testpassword
             - POSTGRES_DB=mydockerdb
         # no need to expose ports in same docker network
-        #ports:
-            #- "5432:5432"
+        ports:
+            - "5432:5432"
 
-    # Django Backend 
+    # Django Backend
     backend:
         build: .
         command: python manage.py runserver 0.0.0.0:8000
@@ -24,8 +24,8 @@ services:
             - "8000:8000"
         depends_on:
             - db
-    
-    # Vue.js Frontend  
+
+    # Vue.js Frontend
     frontend:
         build:
             # context is / in master branch
@@ -39,4 +39,3 @@ services:
 volumes:
     postgres-data:
         driver: local
-

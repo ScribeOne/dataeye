@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mydockerdb',
         'USER': 'Testuser',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PASSWORD': 'testpassword',
         'PORT': 5432,
     }
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'de-de'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
