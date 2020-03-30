@@ -3,9 +3,9 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'measurement', views.MeasurementViewset)
+router.register(r'hutrecord', views.HutRecordViewSet)
 
 urlpatterns = [
-    path('test', views.index, name='index'),
     path('', include(router.urls)),
+    path('huteye/postrecording', views.HutRecordViewSet)
 ]

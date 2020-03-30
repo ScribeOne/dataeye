@@ -1,20 +1,25 @@
 from rest_framework import serializers
+from rest_framework.decorators import api_view
 from . import models
 
 
-class ModelSerializer(serializers.ModelSerializer):
+class ModelTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Model
+        model = models.ModelType
         fields = '__all__'
 
 
-class DeviceSerializer(serializers.ModelSerializer):
+class HutSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Device
+        model = models.HutEye
         fields = '__all__'
 
 
-class MeasurementSerializer(serializers.ModelSerializer):
+class HutRecordSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Measurement
-        fields = '__all__'
+        model = models.HutEyeRecord
+        fields = ('assosiated_device', 'field1', 'field2')
+
+    
+
+

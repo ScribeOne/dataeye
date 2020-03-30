@@ -1,0 +1,51 @@
+[
+    {
+        "model": "datacollector.ModelType",
+        "pk": 1,
+        "fields": {
+            "model_name": "raspberry_pi_2",
+            "model_id": "1"
+        }
+    },
+    {
+        "model": "datacollector.ModelType",
+        "pk": 2,
+        "fields": {
+            "model_name": "DustEye",
+            "model_id": "2"
+        }
+    },
+    {
+        "model": "datacollector.HutEye",
+        "pk": 1,
+        "fields": {
+            "device_name": "MyHutDevice",
+            "device_id": "1",
+            "model_type": 1,
+            "longitude": 23.0,
+            "latitude": 42.0
+        }
+    },
+    {
+        "model": "datacollector.HutEye",
+        "pk": 2,
+        "fields": {
+            "device_name": "WohnzimmerPi",
+            "device_id": "2",
+            "model_type": 1,
+            "longitude": 3.0,
+            "latitude": 4.0
+        }
+    },
+    {
+        "model": "datacollector.HutEye",
+        "pk": 3,
+        "fields": {
+            "device_name": "TestPi",
+            "device_id": "3",
+            "model_type": 1,
+            "longitude": 15.0,
+            "latitude": 7.0
+        }
+    }
+]
