@@ -13,13 +13,3 @@ class HutSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HutEye
         fields = '__all__'
-
-
-class HutRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.HutEyeRecord
-        fields = ('assosiated_device', 'field1', 'field2')
-
-    
-
-

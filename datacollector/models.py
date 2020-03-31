@@ -11,6 +11,9 @@ class ModelType(models.Model):
     dev_start = models.DateField(default=None, null=True, blank=True)
     release_date = models.DateField(default=None, null=True, blank=True)
 
+    def __str__(self):
+        return self.model_id
+
 
 class Device(models.Model):
     device_id = models.CharField(max_length=16)
@@ -24,6 +27,9 @@ class Device(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.device_id
 
 
 class DustEye(Device):
@@ -58,3 +64,6 @@ class HutEyeRecord(models.Model):
     assosiated_device = models.ForeignKey(HutEye, on_delete=models.CASCADE)
     field1 = models.FloatField(blank=True, null=True, default=0.0)
     field2 = models.FloatField(blank=True, null=True, default=0.0)
+
+    def __str__(self):
+        return "test"
