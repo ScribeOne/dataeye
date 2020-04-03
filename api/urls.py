@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token 
 from . import views
 
 router = routers.DefaultRouter()
@@ -23,5 +24,8 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-    path('records/', views.HutRecordView.as_view())
+    path('records/', views.HutRecordView.as_view()),
+    path('report/', views.report),
+    path('dev/', views.Dev.as_view()),
+    path('token-auth/', obtain_auth_token, name='token_auth'),
 ]

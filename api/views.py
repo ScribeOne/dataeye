@@ -1,16 +1,20 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
+from rest_framework import authentication
 
-from .serializers import HutRecordSerializer
-from datacollector.models import HutEye, HutEyeRecord
+
+from .serializers import HutRecordSerializer, HutSerializer
+from datacollector.models import HutEye, HutEyeRecord, ModelType
 
 class HutRecordView(APIView):
     def get(self, request):
         hut_records = HutEyeRecord.objects.all()
         serializer = HutRecordSerializer(hut_records, many=True)
-        print(serializer.data)
-        return Response({"records": serializer.data})
+        return Response(serializer.data)
 
     # define handling on POST for HutEyeRecordings
     def post(self, request):
@@ -25,6 +29,8 @@ class HutRecordView(APIView):
 
         # check if device exists in db
         device_id = meta_info.get('device')
+        if not device_id:
+            return Response({"error": "device field missing"}, status=400)
         try:
             huteye = HutEye.objects.get(device_id=device_id)
         except HutEye.DoesNotExist:
@@ -46,3 +52,17 @@ class HutRecordView(APIView):
                                                     field2=value2)
                                                     
         return Response({'success': 'record saved'})
+
+
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def report(request):
+    return Response({"message": "Hello from request", "data" : request.data})
+
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class Dev(APIView):
+    def get(self, request):
+        content = {'message': 'Hello'}
+        return Response(content)

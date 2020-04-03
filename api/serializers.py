@@ -1,10 +1,22 @@
 from rest_framework import serializers
-from datacollector.models import HutEyeRecord
+from datacollector.models import HutEyeRecord, HutEye, ModelType
 
-class HutRecordSerializer(serializers.Serializer):
-    assosiated_device_id = serializers.IntegerField()
-    field1 = serializers.FloatField()
-    field2 = serializers.FloatField()
+class HutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HutEye
+        fields = '__all__'
 
-    def create(self, validated_data):
-        return HutEyeRecord.objects.create(**validated_data)
+
+class HutRecordSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = HutEyeRecord
+        fields = '__all__'
+        depth = 1
+
+
+class ModelTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelType
+        fields = '__all__'
+
