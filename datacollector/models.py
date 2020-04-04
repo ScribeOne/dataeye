@@ -1,8 +1,31 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # define different types of availaible sensors
 SENSOR_TYPE_CHOICES = [('TEMP', 'Temperature'), ('HUMI', 'Humidity'),
                        ('DUST', 'Fine dust'), ('WIND', 'Wind speed')]
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    adress = models.CharField(max_length=50, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.object.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.Profile.save()
 
 
 class ModelType(models.Model):
@@ -16,6 +39,10 @@ class ModelType(models.Model):
 
 
 class Device(models.Model):
+    owner = models.ForeignKey(User,
+                              on_delete=models.PROTECT,
+                              null=True,
+                              blank=True)
     device_id = models.CharField(max_length=16)
     device_name = models.CharField(max_length=255)
     model_type = models.ForeignKey(ModelType, on_delete=models.PROTECT)

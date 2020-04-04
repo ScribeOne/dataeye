@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
-from rest_framework.authtoken.views import obtain_auth_token 
+from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
 router = routers.DefaultRouter()
@@ -28,4 +28,7 @@ urlpatterns = [
     path('report/', views.report),
     path('dev/', views.Dev.as_view()),
     path('token-auth/', obtain_auth_token, name='token_auth'),
+    path('user/', views.user),
+    path('userdevice/', views.userdevice),
+    url(r'^devicerecord/(?P<id>[0-9]+)/$', views.devicerecord),
 ]

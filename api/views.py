@@ -6,9 +6,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework import authentication
 
-
-from .serializers import HutRecordSerializer, HutSerializer
+from .serializers import HutRecordSerializer, HutSerializer, UserSerializer
 from datacollector.models import HutEye, HutEyeRecord, ModelType
+
 
 class HutRecordView(APIView):
     def get(self, request):
@@ -50,15 +50,40 @@ class HutRecordView(APIView):
         huteye_record = HutEyeRecord.objects.create(assosiated_device=huteye,
                                                     field1=value1,
                                                     field2=value2)
-                                                    
-        return Response({'success': 'record saved'})
+
+        return Response({'success': 'record saved'}, status=201)
+
+
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def user(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def devicerecord(request, id):
+    records = HutEyeRecord.objects.filter(assosiated_device=id)
+    serializer = HutRecordSerializer(records, many=True)
+    return Response(serializer.data)
+
+
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def userdevice(request):
+    hut_eyes = HutEye.objects.filter(owner=request.user)
+    serializer = HutSerializer(hut_eyes, many=True)
+    return Response(serializer.data)
 
 
 @authentication_classes([authentication.TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def report(request):
-    return Response({"message": "Hello from request", "data" : request.data})
+    return Response({"message": "Hello from request", "data": request.data})
+
 
 @authentication_classes([authentication.TokenAuthentication])
 @permission_classes([IsAuthenticated])

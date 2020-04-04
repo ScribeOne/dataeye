@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from datacollector.models import HutEyeRecord, HutEye, ModelType
+from datacollector.models import HutEyeRecord, HutEye, ModelType, Profile
+from django.contrib.auth.models import User
+
 
 class HutSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,7 +10,6 @@ class HutSerializer(serializers.ModelSerializer):
 
 
 class HutRecordSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = HutEyeRecord
         fields = '__all__'
@@ -20,3 +21,18 @@ class ModelTypeSerializer(serializers.ModelSerializer):
         model = ModelType
         fields = '__all__'
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = '__all__'
+        depth = 1
