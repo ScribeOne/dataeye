@@ -15,8 +15,19 @@ Create database tables:
 Run the server:
  `./manage.py runserver 0.0.0.0:8000`
 
+### Start a postgres docker
+```
+docker run -p 5432:5432 \
+                   -e 'POSTGRES_USER=Testuser' \
+                   -e 'POSTGRES_PASSWORD=testpassword' \
+                   -e 'POSTGRES_DB=mydockerdb' \
+                   -v dataeye_postgres-data:/var/lib/postgresql/data \
+                   --network=mynetwork \
+                   -d postgres:12
+```
 
 ### Run backend with docker
 
 Run backend-server and postgres database:
  `docker-compose up -d --build`
+ 
