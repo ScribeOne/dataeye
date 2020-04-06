@@ -38,4 +38,6 @@ RUN apk add --no-cache --virtual .build-deps \
 # Copy files to the workdir
 COPY . /code/
 
+EXPOSE 8001
 
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
