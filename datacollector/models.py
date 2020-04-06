@@ -18,14 +18,10 @@ class Profile(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.object.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.Profile.save()
+        Profile.objects.create(user=instance)
+    instance.profile.save()
 
 
 class ModelType(models.Model):
@@ -93,4 +89,4 @@ class HutEyeRecord(models.Model):
     field2 = models.FloatField(blank=True, null=True, default=0.0)
 
     def __str__(self):
-        return "test"
+        return self.assosiated_device.device_name
