@@ -46,8 +46,12 @@ class HutRecordView(APIView):
             return Response({"error": "'{}' is not valid".format(value2)},
                             status=400)
 
+        # no need to validate timestamp
+        created_at = feed.get('created_at')
+
         # save the new record
-        huteye_record = HutEyeRecord.objects.create(assosiated_device=huteye,
+        huteye_record = HutEyeRecord.objects.create(created_at=created_at,
+                                                    assosiated_device=huteye,
                                                     field1=value1,
                                                     field2=value2)
 
