@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mydockerdb',
         'USER': 'Testuser',
-        'HOST': 'postgresdocker',
+        'HOST': '192.168.178.13',
         'PASSWORD': 'testpassword',
         'PORT': 5433,
     }
