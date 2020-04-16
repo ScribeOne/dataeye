@@ -84,7 +84,7 @@ class HutEye(Device):
 
 
 class HutEyeRecord(models.Model):
-    created_at = models.CharField(max_length=55, null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True)
     assosiated_device = models.ForeignKey(HutEye, on_delete=models.CASCADE)
     field1 = models.FloatField(blank=True, null=True, default=0.0)
     field2 = models.FloatField(blank=True, null=True, default=0.0)

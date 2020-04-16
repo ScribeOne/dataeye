@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework import authentication
+from django.utils.dateparse import parse_datetime
+from django.utils import timezone
+import pytz
 
 from .serializers import HutRecordSerializer, HutSerializer, UserSerializer
 from datacollector.models import HutEye, HutEyeRecord, ModelType
@@ -46,11 +49,16 @@ class HutRecordView(APIView):
             return Response({"error": "'{}' is not valid".format(value2)},
                             status=400)
 
-        # no need to validate timestamp
+        # timestamp
         created_at = feed.get('created_at')
+        if created_at:
+            #local_timezone = pytz.timezone('Europe/Amsterdam')
+            timestamp = parse_datetime(created_at)
+            #time = timezone.localtime(timestamp, local_timezone)
+            #print(time)
 
         # save the new record
-        huteye_record = HutEyeRecord.objects.create(created_at=created_at,
+        huteye_record = HutEyeRecord.objects.create(created_at=timestamp,
                                                     assosiated_device=huteye,
                                                     field1=value1,
                                                     field2=value2)
